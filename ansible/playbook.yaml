@@ -1,0 +1,30 @@
+---
+- name: Configure base servers
+  hosts: base
+  become: yes
+  roles:
+    - base
+
+- name: Configure proxy servers
+  hosts: proxy
+  become: yes
+  roles:
+    - proxy
+
+- name: Configure web servers
+  hosts: web
+  become: yes
+  roles:
+    - web
+
+- name: Test proxy connection
+  hosts: proxy
+  tasks:
+    - name: Check connection to web server
+      uri:
+        url: "http://{{ hostvars['web-vm']['ansible_host'] }}:80"
+        return_content: yes
+      register: result
+      ignore_errors: yes
+    - debug:
+        var: result

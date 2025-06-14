@@ -1,0 +1,21 @@
+all:
+  hosts:
+    base-vm:
+      ansible_host: 62.84.114.116
+    proxy-vm:
+      ansible_host: 84.201.129.121
+    web-vm:
+      ansible_host: 51.250.75.134
+  children:
+    base:
+      hosts:
+        base-vm:
+    proxy:
+      hosts:
+        proxy-vm:
+    web:
+      hosts:
+        web-vm:
+  vars:
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: ~/.ssh/id_ed25519
